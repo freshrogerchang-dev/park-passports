@@ -243,6 +243,7 @@ const PARKS = [
   {id:"kh_youchang_forest", name:"右昌森林公園", city:"高雄", district:"楠梓區", rating:4.3, count:2208, age:["學齡前","國小"], tags:["環湖步道","兒童活動區"], desc:"腹地被三條主要道路切成南中北三段，中段有小池塘、拱橋與兒童活動區，適合慢跑騎車兼帶小孩放電，整體綠意濃密。", address:"高雄市楠梓區德民路", placeId:"ChIJSVGeGHQPbjQRmluH28Iseus"},
   {id:"kh_mengxiang", name:"夢想飛翔公園", city:"高雄", district:"岡山區", rating:4.3, count:57, age:["幼幼","學齡前"], tags:["飛機造型溜滑梯","眷村意象"], desc:"以空軍眷村為發想的社區小公園，復古美式飛機造型溜滑梯很吸睛，另有飛機格子跳格與小沙坑，官方標示適合2-12歲，規模不大但很有主題感。", address:"高雄市岡山區", placeId:"ChIJY2WgjAsPbjQRNiC-effwl8w"},
   {id:"kh_gangshan_riverside", name:"岡山河堤公園", city:"高雄", district:"岡山區", rating:4.3, count:3569, age:["學齡前","國小"], tags:["溜滑梯","攀岩","籃球場"], desc:"沿著河堤展開的大型公園，草坪寬闊、樹蔭充足，兒童遊戲區有溜滑梯與攀岩設施，旁邊還有籃球場跟環湖步道，適合安排半天活動。", address:"高雄市岡山區河堤路二段", placeId:"ChIJiwT-oIEObjQRdqEmv4k-S4Y"},
+  {id:"kh_cpc_ocean", name:"中油海洋天堂公園", city:"高雄", district:"前鎮區", rating:4.6, count:520, age:["幼幼","學齡前","國小"], tags:["海盜船","珊瑚攀爬網","水母遊戲區","海景第一排"], desc:"由台灣中油打造、緊鄰高雄港與高雄展覽館的臨海共融公園，尋寶船、珊瑚攀爬網、泡泡遊戲區、水母與火箭魚造型設施一應俱全，還有加油槍造型洗腳池，邊玩邊看大船入港、夕陽超美，唯獨園內無廁所，建議先到高雄軟體科學園區或超商解決。", address:"高雄市前鎮區復興四路9號", placeId:""},
   {id:"pt_xianmin", name:"屏東縣民公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.7, count:673, age:["學齡前","國小"], tags:["腹地大","景觀佳"], desc:"屏東規模數一數二的共融公園，園區開闊、景觀宜人，遊樂設施種類多元，停車也算方便，很適合安排半天的家庭出遊。", address:"屏東縣屏東市怡永里", placeId:"ChIJ-zV9ixIZbjQR8mIicZaqNbU"},
   {id:"pt_pingtung_park", name:"屏東公園共融式遊戲場", city:"屏東", district:"屏東市", rating:4.4, count:36, age:["國小"], tags:["伯勞鳥塔","5-12歲"], desc:"位於屏東公園內，以外型醒目的伯勞鳥遊戲塔為亮點，官方設計適合5-12歲兒童，園區周邊機能完整、假日常有市集。", address:"屏東縣屏東市公園里", placeId:"ChIJDa8hDFUXbjQRYqCrBqKzx-U"},
   {id:"pt_fuxing", name:"復興公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.6, count:51, age:["學齡前","國小"], tags:["蜂巢螺旋滑梯","河岸步道"], desc:"以蜂巢造型螺旋溜滑梯為特色，另有翹翹板、搖搖馬與鞦韆，官方建議3歲以上，緊鄰河岸適合飯後散步。", address:"屏東縣屏東市建興南路35號", placeId:"ChIJc4whlF0ZbjQRS6ErgwPTtII"},
@@ -268,7 +269,8 @@ const ICON_MAP = {
   pt_xianmin:'tree', pt_pingtung_park:'nest', pt_fuxing:'spiral', pt_xinyuan:'planet',
   pt_yongda:'ship', pt_xingfu:'plane', pt_wandan:'tree', pt_kanding:'planet',
   pt_shengli:'animal', pt_linluo:'chair', pt_checheng:'onion',
-  pt_chaozhou_happiness:'climb', pt_gonger:'tree', pt_donggang:'ship'
+  pt_chaozhou_happiness:'climb', pt_gonger:'tree', pt_donggang:'ship',
+  kh_cpc_ocean:'jellyfish'
 };
 PARKS.forEach(p=>{ p.icon = ICON_MAP[p.id] || 'tree'; });
 
@@ -292,7 +294,8 @@ function iconGlyph(key){
     plane: '<path d="M12 34 L50 22 L36 30 L44 46 L34 40 L28 48 L26 34 Z"/>',
     animal: '<circle cx="32" cy="32" r="13"/><circle cx="22" cy="18" r="5"/><circle cx="42" cy="18" r="5"/>',
     chair: '<path d="M20 44 L20 26 Q20 16 32 16 Q44 16 44 26 L44 44"/><rect x="16" y="44" width="32" height="5" rx="2"/>',
-    onion: '<path d="M32 12 C46 20 46 34 32 46 C18 34 18 20 32 12 Z"/><rect x="30" y="6" width="4" height="8"/>'
+    onion: '<path d="M32 12 C46 20 46 34 32 46 C18 34 18 20 32 12 Z"/><rect x="30" y="6" width="4" height="8"/>',
+    jellyfish: '<path d="M32 12 a16 16 0 0 1 16 16 c0 3 -2 5 -5 5 H21 c-3 0 -5 -2 -5 -5 a16 16 0 0 1 16 -16 Z"/><path d="M22 33 q2 8 -1 15 M32 33 q1 9 -2 15 M42 33 q-2 8 1 15" fill="none" stroke-width="3.5" stroke-linecap="round"/>'
   };
   return glyphs[key] || glyphs.tree;
 }
