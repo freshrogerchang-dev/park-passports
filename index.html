@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高雄・屏東 親子公園護照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cover:#1F3A2E;
+    --cover-dark:#16281F;
+    --paper:#FBF6EA;
+    --paper-dim:#F1EAD8;
+    --ink:#26332B;
+    --ink-soft:#5B6A5F;
+    --gold:#C9A227;
+    --gold-deep:#9C7C17;
+    --coral:#D4572A;
+    --sky:#3E7CA6;
+    --kh:#2F6B4F;
+    --pt:#3E7CA6;
+    --line: rgba(31,58,46,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cover);
+    font-family:'Noto Sans TC', sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .stamp-font{ font-family:'Special Elite', monospace; letter-spacing:0.5px; }
+
+  /* ---- Cover / header ---- */
+  header.cover{
+    padding:28px 20px 22px;
+    color:var(--paper);
+    position:sticky; top:0; z-index:20;
+    background:linear-gradient(180deg, var(--cover) 0%, var(--cover) 82%, var(--cover-dark) 100%);
+    border-bottom:3px solid var(--gold);
+  }
+  .cover-inner{ max-width:720px; margin:0 auto; }
+  .cover-eyebrow{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; color:var(--gold); margin-bottom:6px;
+  }
+  .cover-eyebrow .line{ flex:1; height:1px; background:rgba(201,162,39,0.4); }
+  h1.title{
+    font-size:26px; font-weight:900; margin:0 0 4px;
+    letter-spacing:0.5px;
+  }
+  .subtitle{ font-size:13.5px; color:#CFE0D3; margin:0 0 16px; line-height:1.5; }
+  .progress-row{ display:flex; align-items:center; gap:12px; }
+  .progress-track{
+    flex:1; height:10px; border-radius:6px; background:rgba(255,255,255,0.15);
+    overflow:hidden; border:1px solid rgba(255,255,255,0.25);
+  }
+  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--gold-deep), var(--gold)); transition:width .4s ease; }
+  .progress-label{ font-size:13px; white-space:nowrap; font-weight:700; color:var(--gold); }
+
+  .region-tabs{ display:flex; gap:8px; margin-top:16px; }
+  .region-tabs button{
+    flex:1; padding:11px 8px; border-radius:12px; font-family:inherit;
+    font-size:14.5px; font-weight:900; cursor:pointer;
+    background:rgba(255,255,255,0.08); color:var(--paper);
+    border:2px solid rgba(255,255,255,0.2); transition:background .15s, border-color .15s, transform .1s;
+  }
+  .region-tabs button:active{ transform:scale(0.97); }
+  .region-tabs button.active.all{ background:var(--gold); color:var(--cover-dark); border-color:var(--gold-deep); }
+  .region-tabs button.active.kh{ background:var(--kh); color:#fff; border-color:#173D2C; }
+  .region-tabs button.active.pt{ background:var(--pt); color:#fff; border-color:#2A5D7A; }
+
+  /* ---- Controls ---- */
+  .controls{ max-width:720px; margin:16px auto 0; padding:0 20px 14px; }
+  .search-box{
+    width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--line);
+    font-size:15px; font-family:inherit; background:var(--paper); color:var(--ink);
+    margin-bottom:10px;
+  }
+  .search-box:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .chip{
+    padding:7px 13px; border-radius:20px; border:1.5px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.08); color:var(--paper); font-size:13px; cursor:pointer;
+    font-family:inherit; transition:background .15s, color .15s, border-color .15s;
+  }
+  .chip.active{ background:var(--gold); border-color:var(--gold); color:var(--cover-dark); font-weight:700; }
+  .sort-row{ display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+  .sort-row select{
+    font-family:inherit; font-size:13px; padding:6px 10px; border-radius:8px;
+    border:1.5px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.08); color:var(--paper);
+  }
+  .count-label{ font-size:13px; color:#CFE0D3; }
+
+  /* ---- Main / cards ---- */
+  main{ max-width:720px; margin:0 auto; padding:18px 20px 60px; background:var(--paper); border-radius:18px 18px 0 0; }
+  .card{
+    position:relative;
+    background:#fff;
+    border:1.5px dashed var(--line);
+    border-radius:14px;
+    padding:0 16px 14px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .card-banner{ margin:0 -16px 12px; height:100px; }
+  .card-banner.has-photo{ height:170px; }
+  .card-banner-photo{ width:100%; height:100%; object-fit:cover; display:block; }
+  .banner-svg{ width:100%; height:100%; display:block; }
+  .card.visited{ background:#FFFDF6; border-style:solid; border-color:var(--gold); }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .section-header{
+    display:flex; align-items:baseline; gap:10px; margin:26px 0 12px;
+  }
+  .section-header:first-child{ margin-top:4px; }
+  .section-header h2{
+    font-size:20px; font-weight:900; margin:0; color:var(--ink);
+  }
+  .section-header .section-badge{
+    font-size:12px; font-weight:700; color:#fff; padding:3px 10px; border-radius:20px;
+  }
+  .section-badge.kh{ background:var(--kh); }
+  .section-badge.pt{ background:var(--pt); }
+  .section-header .section-count{ font-size:12.5px; color:var(--ink-soft); }
+  .section-line{ flex:1; height:1px; background:var(--line); }
+  .city-stamp{
+    display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700;
+    padding:3px 9px; border-radius:20px; color:#fff; white-space:nowrap;
+  }
+  .city-stamp.kh{ background:var(--kh); }
+  .city-stamp.pt{ background:var(--pt); }
+  .park-name{ font-size:18px; font-weight:900; margin:8px 0 2px; line-height:1.3; }
+  .park-district{ font-size:12.5px; color:var(--ink-soft); margin-bottom:8px; }
+  .rating-row{ display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+  .stars{ color:var(--gold-deep); font-size:13px; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tag{ font-size:11.5px; padding:3px 9px; border-radius:6px; background:var(--paper-dim); color:var(--ink-soft); border:1px solid var(--line); }
+  .desc{ font-size:14px; line-height:1.65; color:var(--ink); margin:0 0 10px; }
+  .addr-row{ font-size:12.5px; color:var(--ink-soft); margin-bottom:12px; display:flex; gap:6px; }
+  .addr-row a{ color:var(--sky); text-decoration:none; font-weight:700; }
+  .card-actions{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:inherit; font-size:13.5px; font-weight:700; padding:9px 14px; border-radius:9px;
+    border:1.5px solid var(--ink); background:#fff; color:var(--ink); cursor:pointer;
+  }
+  .btn.visited-on{ background:var(--gold); border-color:var(--gold-deep); color:var(--cover-dark); }
+  .btn.ghost{ border-color:var(--line); color:var(--ink-soft); font-weight:500; }
+  .stamp-mark{
+    position:absolute; top:12px; right:14px; transform:rotate(-9deg);
+    border:2.5px solid var(--coral); color:var(--coral);
+    padding:2px 9px; border-radius:6px; font-size:12px; opacity:0.9;
+  }
+
+  .photo-section{ margin:2px 0 12px; }
+  .photo-strip{ display:flex; gap:8px; overflow-x:auto; padding:2px 2px 8px; }
+  .photo-empty{ font-size:12.5px; color:var(--ink-soft); align-self:center; white-space:nowrap; }
+  .photo-thumb-wrap{ position:relative; flex-shrink:0; }
+  .photo-thumb{ width:78px; height:78px; object-fit:cover; border-radius:10px; border:1.5px solid var(--line); display:block; }
+  .photo-remove{
+    position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%;
+    background:var(--coral); color:#fff; border:2px solid #fff; font-size:13px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;
+  }
+  .photo-upload-label{ display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+
+  /* comments */
+  .comments{ margin-top:12px; border-top:1px dashed var(--line); padding-top:10px; }
+  .comments.hidden{ display:none; }
+  .comment{ font-size:13px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--paper-dim); }
+  .comment:last-child{ border-bottom:none; }
+  .comment-meta{ color:var(--ink-soft); font-size:11.5px; margin-top:2px; }
+  .comment-form{ display:flex; gap:6px; margin-top:8px; }
+  .comment-form input{
+    flex:1; padding:8px 10px; border-radius:8px; border:1.5px solid var(--line);
+    font-family:inherit; font-size:13px;
+  }
+  .comment-form button{
+    padding:8px 12px; border-radius:8px; border:1.5px solid var(--ink); background:var(--ink);
+    color:#fff; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer;
+  }
+  .empty-state{ text-align:center; color:var(--ink-soft); padding:40px 10px; font-size:14px; }
+  .notice{
+    max-width:720px; margin:0 auto; padding:10px 20px; background:var(--paper-dim);
+    color:var(--ink-soft); font-size:12px; text-align:center; line-height:1.6;
+  }
+  @media (max-width:420px){
+    h1.title{ font-size:22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow"><span>小小探險家</span><span class="line"></span><span>PARK PASSPORT</span></div>
+    <h1 class="title">高雄・屏東 親子公園護照</h1>
+    <p class="subtitle">收集適合 1–12 歲小朋友的公園，蓋章記錄去過的地方，留言分享心得。</p>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">已蓋章 0 / 0</div>
+    </div>
+    <div class="region-tabs" id="regionTabs"></div>
+  </div>
+</header>
+
+<div class="controls">
+  <input class="search-box" id="searchBox" type="text" placeholder="搜尋公園名稱或地區…">
+  <div class="chip-row" id="ageChips"></div>
+  <div class="chip-row" id="visitedChips"></div>
+  <div class="sort-row">
+    <span class="count-label" id="countLabel"></span>
+    <select id="sortSelect">
+      <option value="rating">評分高到低</option>
+      <option value="name">名稱排序</option>
+      <option value="visited">未去過優先</option>
+    </select>
+  </div>
+</div>
+
+<main id="cardList"></main>
+
+<div class="notice">蓋章紀錄、留言與照片只存在「這支裝置、這個瀏覽器」裡，不會上傳到任何伺服器，也不會跟別人共用。清除瀏覽器資料可能會清掉紀錄，建議偶爾截圖備份。景點資料整理自 Google 地圖與網路親子遊記，實際設施請以現場為準。</div>
+
+<script>
+const PARKS = [
+  {id:"kh_baoan", name:"保安公園", city:"高雄", district:"鳳山區", rating:4.5, count:1022, age:["幼幼","學齡前","國小"], tags:["三層樓溜滑梯","沙坑","健身器材"], desc:"鳳山市區內的大型公園，招牌是三層樓高的溜滑梯攀爬結構，另有沙坑與大人健身器材，腹地大適合全家人放電。", address:"高雄市鳳山區鳳頂路", placeId:"ChIJqcjIGwMdbjQRNqjEDyW2XL0"},
+  {id:"kh_weiwuying", name:"衛武營都會公園共融遊戲場", city:"高雄", district:"鳳山區", rating:4.2, count:102, age:["幼幼"], tags:["共融","0-3歲為主"], desc:"衛武營都會公園內的共融遊戲場，設施偏向低齡設計，適合學齡前幼兒安心遊玩，園區大但缺乏大樹遮蔭，建議避開正午豔陽。", address:"高雄市鳳山區", placeId:"ChIJtfw_SLgFbjQRLephmfyqKzA"},
+  {id:"kh_qishan", name:"旗山共榮公園", city:"高雄", district:"旗山區", rating:4.6, count:221, age:["幼幼","學齡前","國小"], tags:["溜滑梯軌道","蹦床","沙坑"], desc:"位於旗山老街附近，設施豐富包含長溜滑梯、蹦床、沙坑、鞦韆與滑步車道，鄰近超商與市場，逛老街後順路很方便。", address:"高雄市旗山區", placeId:"ChIJ0wT8T2hrbjQRX7qHYF_fb3A"},
+  {id:"kh_central", name:"中央公園遊戲場", city:"高雄", district:"前金區", rating:4.6, count:131, age:["幼幼","學齡前","國小"], tags:["貓頭鷹溜滑梯","滑草場","水226"], desc:"高雄代表性親子公園，貓頭鷹造型溜滑梯塔、鞦韆、沙坑、旋轉咖啡杯與全台唯一結合捷運站的滑草場，假日常有國高中生也來同樂。", address:"高雄市前金區中央公園", placeId:"ChIJEzYddtgFbjQRbrZ8yVJeJJw"},
+  {id:"kh_lianchitan", name:"蓮池潭兒童公園", city:"高雄", district:"左營區", rating:4.4, count:2794, age:["學齡前","國小"], tags:["溜索","大沙坑","彩色滑坡"], desc:"腹地寬廣的主題遊戲場，有兒童溜索、大型沙坑與色彩繽紛的滑坡地景，攀爬與互動設施多，很適合野餐搭配放電。", address:"高雄市左營區蓮池潭", placeId:"ChIJSfUw36NZBxQRZspwqRGyCmU"},
+  {id:"kh_niaochao", name:"凹子底森林公園鳥巢遊戲場", city:"高雄", district:"鼓山區", rating:4.5, count:349, age:["學齡前","國小"], tags:["鳥巢造型","近捷運"], desc:"位於凹子底森林公園內，腹地寬敞、鄰近捷運站與餐飲商圈，白天遊玩、晚上照明較弱建議提早結束行程。", address:"高雄市鼓山區", placeId:"ChIJwwXqcfgFbjQRNubpaSpN61c"},
+  {id:"kh_houan", name:"後安兒童遊戲場", city:"高雄", district:"前鎮區", rating:4.1, count:155, age:["幼幼","學齡前"], tags:["社區型","船型意象"], desc:"復興國小對面的小型社區公園，以船型意象造景搭配溜滑梯步道，規模不大但整潔友善，適合學齡前小朋友就近遊玩。", address:"高雄市前鎮區", placeId:"ChIJ8xJG6CEDbjQRuyNmaUelmZs"},
+  {id:"kh_lizinei", name:"立仁公園", city:"高雄", district:"前鎮區", rating:4.2, count:254, age:["學齡前","國小"], tags:["工業風攀爬","近夢時代"], desc:"由舊工業遺構改造的特色遊戲場，樓梯、攀岩牆、格柵步道、鞦韆與小隧道一應俱全，鄰近夢時代與Decathlon，對面有停車場。", address:"高雄市前鎮區立仁路", placeId:"ChIJI_TgcucDbjQRk-5VzXV9Bkk"},
+  {id:"kh_zuoying_green", name:"左營綠園道大地遊戲場", city:"高雄", district:"左營區", rating:4.3, count:101, age:["學齡前","國小"], tags:["火車主題","攀爬網溜滑梯"], desc:"左營綠園道上以鐵道火車為主題的多功能公園，包含4公尺高攀爬網溜滑梯、迷你火車、石頭滑梯與健身器材，週末人潮較多，附近無廁所建議先如廁。", address:"高雄市左營區中華一路19巷", placeId:"ChIJa1s7vZUFbjQR7ykcyCg0xr0"},
+  {id:"kh_jinshihu", name:"金獅湖江南庭園區", city:"高雄", district:"三民區", rating:4.6, count:23, age:["幼幼","學齡前","國小"], tags:["餵鵝","環湖步道","兒童設施"], desc:"環湖步道搭配江南庭園造景，可近距離看鵝與水鳥，另設有兒童遊戲設施與公廁，適合全家散步兼遊戲。", address:"高雄市三民區", placeId:"ChIJLVaZEmMFbjQR1f3nrOeMGmE"},
+  {id:"kh_agongdian", name:"阿公店森林公園", city:"高雄", district:"燕巢區", rating:4.2, count:2963, age:["學齡前","國小"], tags:["環湖步道","吊橋","遊戲場"], desc:"環繞阿公店水庫的森林公園，有吊橋與長距離步道可健行騎車，園內也設有遊戲場，適合安排半天的戶外行程。", address:"高雄市燕巢區", placeId:"ChIJmzAb8ocNbjQR8MvdJwIGpb8"},
+  {id:"kh_siaogang_forest", name:"小港森林公園", city:"高雄", district:"小港區", rating:4.3, count:2031, age:["學齡前","國小"], tags:["環湖步道","鴨子池"], desc:"新開闢的森林公園，設有遊戲場、環湖步道與人工湖賞鴨，樹木仍在成長中，白天較缺遮蔭，傍晚散步氣氛佳。", address:"高雄市小港區", placeId:"ChIJzUFaBT0dbjQR0Kd7HcDwUPo"},
+  {id:"kh_guoxie", name:"果協公園（大寮公十公園）", city:"高雄", district:"大寮區", rating:4.7, count:23, age:["幼幼","學齡前"], tags:["旋轉遊具","蹦床"], desc:"大寮區小型公園，有三座旋轉遊具、兩座小蹦床與四座鞦韆，適合學齡前幼兒；缺乏遮蔭且停車不便，建議騎車前往。", address:"高雄市大寮區青山街", placeId:"ChIJv14mdAAbbjQRodwMVY_B67o"},
+  {id:"kh_dadong", name:"大東公園兒童遊戲場", city:"高雄", district:"鳳山區", rating:4.4, count:117, age:["學齡前","國小"], tags:["新式遊具","鄰大東藝文中心"], desc:"鄰近大東文化藝術中心，遊具較新穎、座位充足，交通方便可搭捷運公車前往，缺點是腹地缺乏遮蔭，正中午較悶熱。", address:"高雄市鳳山區光遠路", placeId:"ChIJc8mumj8bbjQR6Gji1VvW7gA"},
+  {id:"kh_jingzhong", name:"精忠公園（大寮公十二公園）", city:"高雄", district:"大寮區", rating:4.5, count:185, age:["學齡前","國小"], tags:["滑草","長溜滑梯","沙坑"], desc:"腹地大、環境安靜的社區公園，有長水泥溜滑梯、大草坡可滑草、沙坑與健身區，適合傍晚散步兼放電。", address:"高雄市大寮區茂興路", placeId:"ChIJf8f6HwAbbjQR-sZii6BmMBA"},
+  {id:"kh_houjin_bear", name:"森林熊的秘密城堡－後勁公園兒童遊戲場", city:"高雄", district:"楠梓區", rating:4.4, count:77, age:["幼幼","學齡前","國小"], tags:["三層樓熊造型城堡","保留原生樹林"], desc:"以粉紅色泰迪熊蛋糕城堡為主視覺的共融公園，保留大量原生老樹遮蔭，設施從幼兒沙坑到中高年級的攀爬、單槓都齊全，園內有專屬造型廁所，適合待整個下午。", address:"高雄市楠梓區海專路", placeId:"ChIJRfWwRgAPbjQRGCLG-CuZQc4"},
+  {id:"kh_youchang_forest", name:"右昌森林公園", city:"高雄", district:"楠梓區", rating:4.3, count:2208, age:["學齡前","國小"], tags:["環湖步道","兒童活動區"], desc:"腹地被三條主要道路切成南中北三段，中段有小池塘、拱橋與兒童活動區，適合慢跑騎車兼帶小孩放電，整體綠意濃密。", address:"高雄市楠梓區德民路", placeId:"ChIJSVGeGHQPbjQRmluH28Iseus"},
+  {id:"kh_mengxiang", name:"夢想飛翔公園", city:"高雄", district:"岡山區", rating:4.3, count:57, age:["幼幼","學齡前"], tags:["飛機造型溜滑梯","眷村意象"], desc:"以空軍眷村為發想的社區小公園，復古美式飛機造型溜滑梯很吸睛，另有飛機格子跳格與小沙坑，官方標示適合2-12歲，規模不大但很有主題感。", address:"高雄市岡山區", placeId:"ChIJY2WgjAsPbjQRNiC-effwl8w"},
+  {id:"kh_gangshan_riverside", name:"岡山河堤公園", city:"高雄", district:"岡山區", rating:4.3, count:3569, age:["學齡前","國小"], tags:["溜滑梯","攀岩","籃球場"], desc:"沿著河堤展開的大型公園，草坪寬闊、樹蔭充足，兒童遊戲區有溜滑梯與攀岩設施，旁邊還有籃球場跟環湖步道，適合安排半天活動。", address:"高雄市岡山區河堤路二段", placeId:"ChIJiwT-oIEObjQRdqEmv4k-S4Y"},
+  {id:"pt_xianmin", name:"屏東縣民公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.7, count:673, age:["學齡前","國小"], tags:["腹地大","景觀佳"], desc:"屏東規模數一數二的共融公園，園區開闊、景觀宜人，遊樂設施種類多元，停車也算方便，很適合安排半天的家庭出遊。", address:"屏東縣屏東市怡永里", placeId:"ChIJ-zV9ixIZbjQR8mIicZaqNbU"},
+  {id:"pt_pingtung_park", name:"屏東公園共融式遊戲場", city:"屏東", district:"屏東市", rating:4.4, count:36, age:["國小"], tags:["伯勞鳥塔","5-12歲"], desc:"位於屏東公園內，以外型醒目的伯勞鳥遊戲塔為亮點，官方設計適合5-12歲兒童，園區周邊機能完整、假日常有市集。", address:"屏東縣屏東市公園里", placeId:"ChIJDa8hDFUXbjQRYqCrBqKzx-U"},
+  {id:"pt_fuxing", name:"復興公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.6, count:51, age:["學齡前","國小"], tags:["蜂巢螺旋滑梯","河岸步道"], desc:"以蜂巢造型螺旋溜滑梯為特色，另有翹翹板、搖搖馬與鞦韆，官方建議3歲以上，緊鄰河岸適合飯後散步。", address:"屏東縣屏東市建興南路35號", placeId:"ChIJc4whlF0ZbjQRS6ErgwPTtII"},
+  {id:"pt_xinyuan", name:"新園共融遊戲場", city:"屏東", district:"新園鄉", rating:4.6, count:249, age:["幼幼","學齡前","國小"], tags:["星球溜滑梯","滑步車"], desc:"社區型共融遊戲場，星球造型溜滑梯對學齡前到國小兒童都算安全好玩，也有滑步車道與旋轉鞦韆，鄰近廟宇與小學方便如廁。", address:"屏東縣新園鄉仙吉村仙隆路46號", placeId:"ChIJGdKAV3sfbjQRi0krDzLtY1Y"},
+  {id:"pt_yongda", name:"永大共融公園", city:"屏東", district:"屏東市", rating:4.3, count:434, age:["學齡前","國小"], tags:["海盜船","單車賽道"], desc:"以大型海盜船造型攀爬結構為主打（曾因整修暫時關閉，前往前建議先確認），對街另有單車賽道與沙坑遊戲區，並設有沖洗區。", address:"屏東縣屏東市大武里永大路70號", placeId:"ChIJeaof9tQZbjQR2nIdAlC8PXE"},
+  {id:"pt_xingfu", name:"屏東幸福公園共融式遊戲場", city:"屏東", district:"屏東市", rating:4.5, count:24, age:["國小"], tags:["飛機攀爬架","無障礙鞦韆"], desc:"市中心的共融公園，設有全台少見的無障礙鞦韆供輪椅使用者遊玩，飛機造型攀爬架很吸睛，官方設計適合5-12歲與16歲以上共融使用。", address:"屏東縣屏東市公園里", placeId:"ChIJ26JtWcIXbjQRxKqO2-ggBlY"},
+  {id:"pt_wandan", name:"萬丹公園兒童遊戲場", city:"屏東", district:"萬丹鄉", rating:4.5, count:482, age:["學齡前","國小"], tags:["家庭公園","地下停車場"], desc:"萬丹在地知名的家庭公園，設施完善適合各年齡層，地下停車場僅平日開放，假日建議騎車前往較方便停車。", address:"屏東縣萬丹鄉公園路29號", placeId:"ChIJC7UimEoZbjQRFQndbc7YlrY"},
+  {id:"pt_kanding", name:"崁頂共融公園", city:"屏東", district:"崁頂鄉", rating:4.7, count:219, age:["學齡前","國小"], tags:["地球太陽月亮溜滑梯","戲水噴水"], desc:"以環保為主題設計，地球、太陽、月亮造型溜滑梯與旋轉地球儀都很好拍照，另有腳踏式噴水裝置消暑，夏天玩水記得帶備用衣物。", address:"屏東縣崁頂鄉屏69-1鄉道", placeId:"ChIJv5iqorsfbjQRxU-sWEq_RCw"},
+  {id:"pt_chaozhou_happiness", name:"潮州幸福村公園", city:"屏東", district:"潮州鎮", rating:4.5, count:1252, age:["幼幼","學齡前","國小"], tags:["原眷村腹地","繩索攀爬"], desc:"由舊眷村用地改造的大型開放公園，可停近百輛車，設有沙坑、繩索攀爬區、鞦韆、獨木橋與大草坪放風箏，廁所與飲水機都齊全。", address:"屏東縣潮州鎮光春路292號", placeId:"ChIJA2q13P0hbjQRC9ORcC3lpsc"},
+  {id:"pt_gonger", name:"公二兒童公園", city:"屏東", district:"潮州鎮", rating:4.3, count:11, age:["幼幼","學齡前","國小"], tags:["社區型","2-12歲"], desc:"位於潮州鎮住宅區內的小型社區綠地，規劃精巧、兼顧兒童遊戲與居民休憩機能，官方標示適合2-12歲，適合就近散步遊玩。", address:"屏東縣潮州鎮三和路73號", placeId:"ChIJaZbR5UohbjQRTksDup9vVa0"},
+  {id:"pt_donggang", name:"討海人主題公園", city:"屏東", district:"東港鎮", rating:4.6, count:558, age:["學齡前","國小"], tags:["漁港意象","放電廣場"], desc:"以東港漁村意象打造的主題遊戲場，遊具設計融入討海人與船隻元素，空間開闊能容納大量孩童一起玩，是東港在地人氣的親子景點。", address:"屏東縣東港鎮船頭路", placeId:"ChIJJxtSFU_hcTQRxmhrTukTX-U"},
+  {id:"pt_shengli", name:"勝利動物溜滑梯公園", city:"屏東", district:"屏東市", rating:4.6, count:487, age:["幼幼","學齡前"], tags:["動物造型溜滑梯","6歲以下佳"], desc:"以造型可愛的動物溜滑梯聞名，瓢蟲造型廁所還附設尿布台，最適合6歲以下幼童；水泥滑梯夏天曝曬後表面會燙，要留意。", address:"屏東縣屏東市蘭州街4-1號", placeId:"ChIJqVRCjSIXbjQRUXb0X5pu4vA"},
+  {id:"pt_linluo", name:"麟洛客家花轎主題遊戲場", city:"屏東", district:"麟洛鄉", rating:4.4, count:71, age:["幼幼","學齡前"], tags:["花轎主題","近火車站"], desc:"麟洛車站旁的主題公園，以客家花轎意象打造多座同高度滑梯，遊具較單純安全，適合學齡前幼兒，周邊店家少記得自備水和食物。", address:"屏東縣麟洛鄉田道村站前巷12號", placeId:"ChIJG0y8pYwZbjQRod0sttwgGwI"},
+  {id:"pt_checheng", name:"車城共融遊戲場", city:"屏東", district:"車城鄉", rating:4.5, count:341, age:["學齡前","國小"], tags:["洋蔥造型攀爬","樹蔭充足"], desc:"位於福安宮後方，以屏東洋蔥意象設計的大型攀爬遊戲場，難得樹蔭充足不會太曬，鄰近廟口小吃選擇多，適合安排恆春半島順遊。", address:"屏東縣車城鄉福安村", placeId:"ChIJj4cZFzO5cTQRDyx6icGnsW4"}
+];
+
+const ICON_MAP = {
+  kh_baoan:'tower', kh_weiwuying:'sandbox', kh_qishan:'slide', kh_central:'owl',
+  kh_lianchitan:'slide', kh_niaochao:'nest', kh_houan:'ship', kh_lizinei:'climb',
+  kh_zuoying_green:'train', kh_jinshihu:'goose', kh_agongdian:'forest', kh_siaogang_forest:'forest',
+  kh_guoxie:'swing', kh_dadong:'slide', kh_jingzhong:'slope',
+  kh_houjin_bear:'animal', kh_youchang_forest:'forest', kh_mengxiang:'plane', kh_gangshan_riverside:'climb',
+  pt_xianmin:'tree', pt_pingtung_park:'nest', pt_fuxing:'spiral', pt_xinyuan:'planet',
+  pt_yongda:'ship', pt_xingfu:'plane', pt_wandan:'tree', pt_kanding:'planet',
+  pt_shengli:'animal', pt_linluo:'chair', pt_checheng:'onion',
+  pt_chaozhou_happiness:'climb', pt_gonger:'tree', pt_donggang:'ship'
+};
+PARKS.forEach(p=>{ p.icon = ICON_MAP[p.id] || 'tree'; });
+
+function iconGlyph(key){
+  const glyphs = {
+    tower: '<rect x="20" y="10" width="24" height="34" rx="3"/><rect x="26" y="18" width="12" height="8" fill="var(--cover)"/><circle cx="32" cy="40" r="4" fill="var(--cover)"/>',
+    sandbox: '<rect x="12" y="30" width="40" height="16" rx="2"/><circle cx="22" cy="38" r="2.5" fill="var(--cover)"/><circle cx="32" cy="40" r="2.5" fill="var(--cover)"/><circle cx="42" cy="37" r="2.5" fill="var(--cover)"/>',
+    slide: '<path d="M14 46 L34 14 L40 14 L22 46 Z"/><circle cx="17" cy="42" r="4" fill="var(--cover)"/>',
+    owl: '<ellipse cx="32" cy="30" rx="14" ry="16"/><circle cx="27" cy="26" r="3.5" fill="var(--cover)"/><circle cx="37" cy="26" r="3.5" fill="var(--cover)"/><path d="M32 30 l-3 4 h6 z" fill="var(--cover)"/>',
+    nest: '<ellipse cx="32" cy="38" rx="18" ry="8"/><circle cx="27" cy="30" r="5" fill="var(--cover)"/><circle cx="37" cy="28" r="5.5" fill="var(--cover)"/>',
+    ship: '<path d="M16 34 L48 34 L42 46 L22 46 Z"/><rect x="30" y="14" width="3" height="20"/><path d="M33 16 L44 24 L33 26 Z"/>',
+    climb: '<path d="M14 14 L50 50 M50 14 L14 50 M14 32 L50 32 M32 14 L32 50"/>',
+    train: '<rect x="14" y="20" width="26" height="16" rx="3"/><rect x="40" y="26" width="10" height="10" rx="2"/><circle cx="21" cy="40" r="4" fill="var(--cover)"/><circle cx="33" cy="40" r="4" fill="var(--cover)"/><circle cx="45" cy="40" r="4" fill="var(--cover)"/>',
+    goose: '<ellipse cx="30" cy="36" rx="14" ry="10"/><circle cx="42" cy="24" r="6"/><path d="M48 22 L54 24 L48 26 Z" fill="var(--cover)"/>',
+    forest: '<path d="M32 10 L44 30 H20 Z"/><path d="M32 22 L46 44 H18 Z"/><rect x="29" y="44" width="6" height="8"/>',
+    swing: '<path d="M18 12 H46"/><path d="M22 12 L26 40"/><path d="M42 12 L38 40"/><rect x="24" y="40" width="16" height="5" rx="1.5"/>',
+    slope: '<path d="M14 46 L14 26 Q14 14 30 14 L50 14 L50 20 L26 30 L26 46 Z"/>',
+    tree: '<circle cx="32" cy="24" r="14"/><rect x="29" y="36" width="6" height="12"/>',
+    spiral: '<path d="M32 46 C18 46 18 30 30 28 C40 26 40 36 32 36 C27 36 27 30 32 30" fill="none" stroke-width="4" stroke-linecap="round"/>',
+    planet: '<circle cx="30" cy="30" r="10"/><ellipse cx="30" cy="30" rx="18" ry="6" fill="none" stroke-width="3"/>',
+    plane: '<path d="M12 34 L50 22 L36 30 L44 46 L34 40 L28 48 L26 34 Z"/>',
+    animal: '<circle cx="32" cy="32" r="13"/><circle cx="22" cy="18" r="5"/><circle cx="42" cy="18" r="5"/>',
+    chair: '<path d="M20 44 L20 26 Q20 16 32 16 Q44 16 44 26 L44 44"/><rect x="16" y="44" width="32" height="5" rx="2"/>',
+    onion: '<path d="M32 12 C46 20 46 34 32 46 C18 34 18 20 32 12 Z"/><rect x="30" y="6" width="4" height="8"/>'
+  };
+  return glyphs[key] || glyphs.tree;
+}
+function cardBanner(p){
+  const ground = p.city==='高雄' ? 'var(--kh)' : 'var(--pt)';
+  const skyTop = p.city==='高雄' ? '#DCEFE2' : '#DCE9F3';
+  const skyBottom = p.city==='高雄' ? '#F6FBF3' : '#F2F8FB';
+  const gid = 'sky-'+p.id;
+  return `<svg class="banner-svg" viewBox="0 0 400 130" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${skyTop}"/><stop offset="1" stop-color="${skyBottom}"/>
+    </linearGradient></defs>
+    <rect x="0" y="0" width="400" height="130" fill="url(#${gid})"/>
+    <circle cx="352" cy="28" r="15" fill="var(--gold)" opacity="0.9"/>
+    <path d="M0 92 Q100 68 210 90 T400 84 V130 H0 Z" fill="${ground}" opacity="0.22"/>
+    <path d="M0 112 Q130 82 230 106 T400 96 V130 H0 Z" fill="${ground}"/>
+    <g transform="translate(148,42) scale(1.7)" fill="var(--paper)" stroke="var(--paper)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${iconGlyph(p.icon)}</g>
+  </svg>`;
+}
+
+const CITY_OPTIONS = ["全部","高雄","屏東"];
+const AGE_OPTIONS = ["全部","幼幼","學齡前","國小"];
+const VISITED_OPTIONS = ["全部","✅ 已去過","⬜ 未拜訪"];
+let activeCity = "全部";
+let activeAge = "全部";
+let activeVisited = "全部";
+let searchTerm = "";
+let sortMode = "rating";
+let stateCache = {}; // id -> {visited, comments, photos}
+
+function mapsUrl(p){
+  const query = encodeURIComponent(`${p.name} ${p.address}`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}&query_place_id=${p.placeId}`;
+}
+
+function withTimeout(promise, ms){
+  return Promise.race([
+    promise,
+    new Promise(resolve=>setTimeout(()=>resolve(null), ms))
+  ]);
+}
+
+// Local, on-device storage (this version is for standalone hosting e.g. GitHub Pages —
+// no Claude backend, so data stays in this browser only and is NOT shared with others).
+async function loadState(){
+  PARKS.forEach(p=>{ stateCache[p.id] = {visited:false, comments:[], photos:[]}; });
+  try{
+    const raw = window.localStorage.getItem('data:all');
+    if(raw){
+      const data = JSON.parse(raw);
+      PARKS.forEach(p=>{
+        if(data[p.id]){
+          stateCache[p.id].visited = !!data[p.id].visited;
+          stateCache[p.id].comments = data[p.id].comments || [];
+          stateCache[p.id].photos = data[p.id].photos || [];
+        }
+      });
+    }
+  }catch(e){ console.error('data load failed', e); }
+}
+
+async function saveAll(){
+  try{
+    const data = {};
+    PARKS.forEach(p=>{
+      data[p.id] = {
+        visited: stateCache[p.id].visited,
+        comments: stateCache[p.id].comments,
+        photos: stateCache[p.id].photos
+      };
+    });
+    window.localStorage.setItem('data:all', JSON.stringify(data));
+  }catch(e){ console.error('data save failed', e); }
+}
+
+function renderRegionTabs(){
+  const wrap = document.getElementById('regionTabs');
+  wrap.innerHTML = '';
+  const defs = [
+    {opt:'全部', cls:'all'},
+    {opt:'高雄', cls:'kh'},
+    {opt:'屏東', cls:'pt'}
+  ];
+  defs.forEach(d=>{
+    const el = document.createElement('button');
+    el.className = (d.opt===activeCity ? `active ${d.cls}` : '');
+    el.textContent = d.opt;
+    el.onclick = ()=>{ activeCity = d.opt; renderRegionTabs(); renderList(); };
+    wrap.appendChild(el);
+  });
+}
+
+function renderChips(){
+  const ageWrap = document.getElementById('ageChips');
+  ageWrap.innerHTML = '';
+  AGE_OPTIONS.forEach(opt=>{
+    const el = document.createElement('button');
+    el.className = 'chip' + (opt===activeAge ? ' active':'');
+    el.textContent = opt;
+    el.onclick = ()=>{ activeAge = opt; renderChips(); renderList(); };
+    ageWrap.appendChild(el);
+  });
+
+  const visitedWrap = document.getElementById('visitedChips');
+  visitedWrap.innerHTML = '';
+  VISITED_OPTIONS.forEach(opt=>{
+    const el = document.createElement('button');
+    el.className = 'chip' + (opt===activeVisited ? ' active':'');
+    el.textContent = opt;
+    el.onclick = ()=>{ activeVisited = opt; renderChips(); renderList(); };
+    visitedWrap.appendChild(el);
+  });
+}
+
+function filteredParks(){
+  let list = PARKS.filter(p=>{
+    if(activeCity!=='全部' && p.city!==activeCity) return false;
+    if(activeAge!=='全部' && !p.age.includes(activeAge)) return false;
+    const isVisited = !!stateCache[p.id]?.visited;
+    if(activeVisited==='✅ 已去過' && !isVisited) return false;
+    if(activeVisited==='⬜ 未拜訪' && isVisited) return false;
+    if(searchTerm){
+      const hay = (p.name+p.district+p.address).toLowerCase();
+      if(!hay.includes(searchTerm.toLowerCase())) return false;
+    }
+    return true;
+  });
+  if(sortMode==='rating') list = list.sort((a,b)=>b.rating-a.rating);
+  else if(sortMode==='name') list = list.sort((a,b)=>a.name.localeCompare(b.name,'zh-Hant'));
+  else if(sortMode==='visited') list = list.sort((a,b)=>{
+    const av = stateCache[a.id]?.visited ? 1:0, bv = stateCache[b.id]?.visited ? 1:0;
+    return av-bv;
+  });
+  return list;
+}
+
+function starString(rating){
+  const full = Math.round(rating);
+  return '★'.repeat(full) + '☆'.repeat(5-full);
+}
+
+function updateProgress(){
+  const total = PARKS.length;
+  const done = PARKS.filter(p=>stateCache[p.id]?.visited).length;
+  document.getElementById('progressLabel').textContent = `已蓋章 ${done} / ${total}`;
+  document.getElementById('progressFill').style.width = total? (done/total*100)+'%' : '0%';
+}
+
+function resizeImage(file, maxDim, quality){
+  maxDim = maxDim || 560; quality = quality || 0.55;
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w > h){ if(w > maxDim){ h = Math.round(h * maxDim / w); w = maxDim; } }
+        else { if(h > maxDim){ w = Math.round(w * maxDim / h); h = maxDim; } }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = ()=>reject(new Error('image load failed'));
+      img.src = reader.result;
+    };
+    reader.onerror = ()=>reject(new Error('file read failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function buildCard(p){
+    const st = stateCache[p.id] || {visited:false, comments:[]};
+    const card = document.createElement('div');
+    card.className = 'card' + (st.visited ? ' visited' : '');
+
+    const cityClass = p.city==='高雄' ? 'kh' : 'pt';
+    const hasPhoto = st.photos && st.photos.length > 0;
+    const bannerHtml = hasPhoto
+      ? `<img class="card-banner-photo" src="${st.photos[0]}" alt="${escapeHtml(p.name)} 實拍照片">`
+      : cardBanner(p);
+    card.innerHTML = `
+      ${st.visited ? '<div class="stamp-mark stamp-font">VISITED</div>' : ''}
+      <div class="card-banner${hasPhoto ? ' has-photo' : ''}" data-role="card-banner">${bannerHtml}</div>
+      <div class="card-top">
+        <span class="city-stamp ${cityClass}">${p.city}・${p.district}</span>
+      </div>
+      <div class="park-name">${p.name}</div>
+      <div class="rating-row"><span class="stars">${starString(p.rating)}</span><span>${p.rating.toFixed(1)}（${p.count} 則評論）</span></div>
+      <div class="tag-row">
+        ${p.age.map(a=>`<span class="tag">${a}</span>`).join('')}
+        ${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+      </div>
+      <p class="desc">${p.desc}</p>
+      <div class="addr-row"><span>📍 ${p.address}</span></div>
+      <div class="addr-row"><a href="${mapsUrl(p)}" target="_blank" rel="noopener">在 Google 地圖開啟 →</a></div>
+      <div class="photo-section">
+        <div class="photo-strip" data-role="photo-strip"></div>
+        <label class="btn ghost photo-upload-label">📷 上傳照片
+          <input type="file" accept="image/*" data-role="photo-input" style="display:none">
+        </label>
+      </div>
+      <div class="card-actions">
+        <button class="btn ${st.visited?'visited-on':''}" data-action="toggle">${st.visited ? '✅ 已蓋章' : '⬜ 標記去過'}</button>
+        <button class="btn ghost" data-action="comments">💬 留言（${st.comments.length}）</button>
+      </div>
+      <div class="comments hidden" data-role="comments">
+        <div data-role="comment-list"></div>
+        <div class="comment-form">
+          <input type="text" placeholder="留下心得或提醒…" data-role="comment-input">
+          <button data-action="add-comment">送出</button>
+        </div>
+      </div>
+    `;
+
+    card.querySelector('[data-action="toggle"]').addEventListener('click', async ()=>{
+      st.visited = !st.visited;
+      stateCache[p.id] = st;
+      await saveAll();
+      updateProgress();
+      renderList();
+    });
+
+    const commentsEl = card.querySelector('[data-role="comments"]');
+    card.querySelector('[data-action="comments"]').addEventListener('click', ()=>{
+      commentsEl.classList.toggle('hidden');
+    });
+
+    function renderComments(){
+      const listEl = commentsEl.querySelector('[data-role="comment-list"]');
+      if(st.comments.length===0){
+        listEl.innerHTML = '<div class="comment" style="color:var(--ink-soft)">還沒有留言，第一個分享心得吧！</div>';
+      } else {
+        listEl.innerHTML = st.comments.map(c=>`
+          <div class="comment">${escapeHtml(c.text)}<div class="comment-meta">${new Date(c.date).toLocaleDateString('zh-TW')}</div></div>
+        `).join('');
+      }
+    }
+    renderComments();
+
+    function renderBanner(){
+      const bannerEl = card.querySelector('[data-role="card-banner"]');
+      const photos = st.photos || [];
+      if(photos.length > 0){
+        bannerEl.classList.add('has-photo');
+        bannerEl.innerHTML = `<img class="card-banner-photo" src="${photos[0]}" alt="${escapeHtml(p.name)} 實拍照片">`;
+      } else {
+        bannerEl.classList.remove('has-photo');
+        bannerEl.innerHTML = cardBanner(p);
+      }
+    }
+
+    function renderPhotos(){
+      const strip = card.querySelector('[data-role="photo-strip"]');
+      const photos = st.photos || [];
+      renderBanner();
+      if(photos.length===0){
+        strip.innerHTML = '<span class="photo-empty">還沒有照片，點右邊上傳第一張吧！</span>';
+        return;
+      }
+      strip.innerHTML = photos.map((src,i)=>`
+        <div class="photo-thumb-wrap">
+          <a href="${src}" target="_blank" rel="noopener"><img class="photo-thumb" src="${src}" alt="${escapeHtml(p.name)} 照片"></a>
+          <button class="photo-remove" data-idx="${i}" title="刪除照片" type="button">×</button>
+        </div>
+      `).join('');
+      strip.querySelectorAll('.photo-remove').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+          const idx = parseInt(btn.dataset.idx, 10);
+          st.photos.splice(idx, 1);
+          stateCache[p.id] = st;
+          await saveAll();
+          renderPhotos();
+        });
+      });
+    }
+    renderPhotos();
+
+    card.querySelector('[data-role="photo-input"]').addEventListener('change', async (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      try{
+        const dataUrl = await resizeImage(file);
+        st.photos = st.photos || [];
+        st.photos.unshift(dataUrl);
+        if(st.photos.length > 2) st.photos = st.photos.slice(0, 2);
+        stateCache[p.id] = st;
+        await saveAll();
+        renderPhotos();
+      }catch(err){
+        console.error('photo upload failed', err);
+        alert('這張照片上傳失敗，換一張試試看。');
+      }
+      e.target.value = '';
+    });
+
+    card.querySelector('[data-action="add-comment"]').addEventListener('click', async ()=>{
+      const input = card.querySelector('[data-role="comment-input"]');
+      const text = input.value.trim();
+      if(!text) return;
+      st.comments.push({text, date: new Date().toISOString()});
+      stateCache[p.id] = st;
+      await saveAll();
+      input.value = '';
+      renderComments();
+      card.querySelector('[data-action="comments"]').textContent = `💬 留言（${st.comments.length}）`;
+    });
+
+    return card;
+}
+
+function renderList(){
+  const list = filteredParks();
+  document.getElementById('countLabel').textContent = `共 ${list.length} 座公園`;
+  const container = document.getElementById('cardList');
+  container.innerHTML = '';
+  if(list.length===0){
+    container.innerHTML = '<div class="empty-state">找不到符合條件的公園，試試看調整篩選條件。</div>';
+    return;
+  }
+  const groups = [
+    {city:'高雄', cls:'kh', items: list.filter(p=>p.city==='高雄')},
+    {city:'屏東', cls:'pt', items: list.filter(p=>p.city==='屏東')}
+  ];
+  groups.forEach(g=>{
+    if(g.items.length===0) return;
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `<span class="section-badge ${g.cls}">${g.city}</span><h2>${g.city}的公園</h2><span class="section-line"></span><span class="section-count">${g.items.length} 座</span>`;
+    container.appendChild(header);
+    g.items.forEach(p=>{
+      container.appendChild(buildCard(p));
+    });
+  });
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  searchTerm = e.target.value;
+  renderList();
+});
+document.getElementById('sortSelect').addEventListener('change', (e)=>{
+  sortMode = e.target.value;
+  renderList();
+});
+
+(async function init(){
+  try{
+    renderRegionTabs();
+    renderChips();
+    document.getElementById('cardList').innerHTML = '<div class="empty-state">載入中…</div>';
+    try{
+      await loadState();
+    }catch(e){
+      console.error('init loadState failed, showing defaults', e);
+      PARKS.forEach(p=>{ if(!stateCache[p.id]) stateCache[p.id] = {visited:false, comments:[], photos:[]}; });
+    }
+  }catch(e){
+    console.error('init setup failed', e);
+    PARKS.forEach(p=>{ if(!stateCache[p.id]) stateCache[p.id] = {visited:false, comments:[], photos:[]}; });
+  }
+  updateProgress();
+  renderList();
+})();
+</script>
+</body>
+</html>
