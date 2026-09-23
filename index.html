@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>高雄・屏東 親子公園護照</title>
+<title>高雄・屏東・台南 親子公園護照</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
@@ -20,6 +20,7 @@
     --sky:#3E7CA6;
     --kh:#2F6B4F;
     --pt:#3E7CA6;
+    --tn:#B0562B;
     --line: rgba(31,58,46,0.18);
   }
   *{box-sizing:border-box;}
@@ -70,6 +71,7 @@
   .region-tabs button.active.all{ background:var(--gold); color:var(--cover-dark); border-color:var(--gold-deep); }
   .region-tabs button.active.kh{ background:var(--kh); color:#fff; border-color:#173D2C; }
   .region-tabs button.active.pt{ background:var(--pt); color:#fff; border-color:#2A5D7A; }
+  .region-tabs button.active.tn{ background:var(--tn); color:#fff; border-color:#7A3A1B; }
 
   /* ---- Controls ---- */
   .controls{ max-width:720px; margin:16px auto 0; padding:0 20px 14px; }
@@ -122,6 +124,7 @@
   }
   .section-badge.kh{ background:var(--kh); }
   .section-badge.pt{ background:var(--pt); }
+  .section-badge.tn{ background:var(--tn); }
   .section-header .section-count{ font-size:12.5px; color:var(--ink-soft); }
   .section-line{ flex:1; height:1px; background:var(--line); }
   .city-stamp{
@@ -130,6 +133,7 @@
   }
   .city-stamp.kh{ background:var(--kh); }
   .city-stamp.pt{ background:var(--pt); }
+  .city-stamp.tn{ background:var(--tn); }
   .park-name{ font-size:18px; font-weight:900; margin:8px 0 2px; line-height:1.3; }
   .park-district{ font-size:12.5px; color:var(--ink-soft); margin-bottom:8px; }
   .rating-row{ display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
@@ -194,7 +198,7 @@
 <header class="cover">
   <div class="cover-inner">
     <div class="cover-eyebrow"><span>小小探險家</span><span class="line"></span><span>PARK PASSPORT</span></div>
-    <h1 class="title">高雄・屏東 親子公園護照</h1>
+    <h1 class="title">高雄・屏東・台南 親子公園護照</h1>
     <p class="subtitle">收集適合 1–12 歲小朋友的公園，蓋章記錄去過的地方，留言分享心得。</p>
     <div class="progress-row">
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -248,6 +252,7 @@ const PARKS = [
   {id:"kh_lantian_saltpark", name:"藍田公園", city:"高雄", district:"楠梓區", rating:4.7, count:310, age:["幼幼","學齡前","國小"], tags:["鹽田主題","水陸雙拼","滑步車道","24項設施"], desc:"佔地約3.45公頃的北高雄旗艦公園，以日治時期下鹽田庄為發想的鹽山主題打造，規劃10大主題區、多達24項遊樂設施，包含鹽山遊戲塔、親水戲水區、溜索、沙坑與滑步車道，是少見的水陸雙拼共融公園。", address:"高雄市楠梓區藍田路（近大學路口）", placeId:""},
   {id:"kh_wujia_doraemon", name:"五甲社區公園", city:"高雄", district:"鳳山區", rating:4.5, count:190, age:["幼幼","學齡前","國小"], tags:["哆啦A夢水管","溜冰場","籃球網球場"], desc:"位於五甲國宅社區旁，佔地約1.39公頃，最大亮點是哆啦A夢場景造型的大水管，小朋友可以鑽進去當秘密基地，另有溜滑梯、攀岩區、攀爬架、溜冰場、籃球場與網球場，園內無廁所建議先如廁。", address:"高雄市鳳山區新富路391號後方", placeId:""},
   {id:"kh_pingfeng_birdtree", name:"坪鳳公園", city:"高雄", district:"小港區", rating:4.6, count:275, age:["學齡前","國小"], tags:["22公尺長滑梯","鳥巢樹屋","眺望飛機起降"], desc:"位於小港大坪頂丘陵地，以在地生態「鳥語樹」為主題，順應天然坡地打造高雄最長的22公尺樹屋斜坡溜滑梯，滑梯高達8公尺，還能眺望小港機場飛機起降，生態環境優美適合傍晚散步。", address:"高雄市小港區高坪二十五路15號", placeId:""},
+  {id:"kh_playground_railyard", name:"高雄親子遊樂園區", city:"高雄", district:"鳳山區", rating:4.7, count:620, age:["幼幼","學齡前","國小"], tags:["全台最大半室內","30項設施免費","抱石攀岩"], desc:"由台鐵高雄機廠舊廠房活化而成，是全台最大的半室內免費親子遊憩空間，橫跨鳳山、苓雅與前鎮交界，30多項設施包含抱石攀岩、雲朵彈跳床、天車網繩、跑酷場，2-5歲設有專屬幼齡感官遊戲區，5-12歲則有籃球場、滑步車場與Pump Track，輕軌C35凱旋武昌站步行1分鐘即達，設有229格停車位。", address:"高雄市鳳山區武慶二路（原台鐵高雄機廠）", placeId:""},
   {id:"pt_xianmin", name:"屏東縣民公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.7, count:673, age:["學齡前","國小"], tags:["腹地大","景觀佳"], desc:"屏東規模數一數二的共融公園，園區開闊、景觀宜人，遊樂設施種類多元，停車也算方便，很適合安排半天的家庭出遊。", address:"屏東縣屏東市怡永里", placeId:"ChIJ-zV9ixIZbjQR8mIicZaqNbU"},
   {id:"pt_pingtung_park", name:"屏東公園共融式遊戲場", city:"屏東", district:"屏東市", rating:4.4, count:36, age:["國小"], tags:["伯勞鳥塔","5-12歲"], desc:"位於屏東公園內，以外型醒目的伯勞鳥遊戲塔為亮點，官方設計適合5-12歲兒童，園區周邊機能完整、假日常有市集。", address:"屏東縣屏東市公園里", placeId:"ChIJDa8hDFUXbjQRYqCrBqKzx-U"},
   {id:"pt_fuxing", name:"復興公園共融遊戲場", city:"屏東", district:"屏東市", rating:4.6, count:51, age:["學齡前","國小"], tags:["蜂巢螺旋滑梯","河岸步道"], desc:"以蜂巢造型螺旋溜滑梯為特色，另有翹翹板、搖搖馬與鞦韆，官方建議3歲以上，緊鄰河岸適合飯後散步。", address:"屏東縣屏東市建興南路35號", placeId:"ChIJc4whlF0ZbjQRS6ErgwPTtII"},
@@ -265,7 +270,12 @@ const PARKS = [
   {id:"pt_jiuru_balu", name:"巴轆公園", city:"屏東", district:"九如鄉", rating:4.7, count:180, age:["幼幼","學齡前","國小"], tags:["菸葉廠改建","檸檬意象","泰山滑軌","生態池"], desc:"由九如舊菸葉廠房改建而成的屏北旗艦共融公園，服務九如、里港、鹽埔、高樹四鄉鎮，遊戲塔保留菸葉廠意象並融入在地檸檬元素，內有3座不同高度滑梯供鑽滾爬躺、4座溜滑梯與一座泰山滑軌，還有落羽松生態池、步道與滑輪場，全區無障礙設計。", address:"屏東縣九如鄉九清村九如路二段426號", placeId:""},
   {id:"pt_neipu_liudui", name:"內埔共融特色遊戲場（六堆紀念公園）", city:"屏東", district:"內埔鄉", rating:4.6, count:260, age:["幼幼","學齡前","國小"], tags:["客家尖炮城城牆","9米遊戲塔","晴雨籃球場"], desc:"位於六堆紀念公園內的屏北旗艦型雙主題遊戲場，一側是客家尖炮城意象的紅磚城牆遊具，一側是高達9公尺的綜合遊戲塔，中間串連攀爬、鑽籠、單索橋與躲貓貓空間，另有沙坑、迷宮與晴雨籃球場，適合安排半天親子行程。", address:"屏東縣內埔鄉中興路2-1號", placeId:""},
   {id:"pt_linbian_train", name:"林邊共融遊戲場（飛天火車）", city:"屏東", district:"林邊鄉", rating:4.6, count:410, age:["幼幼","學齡前","國小"], tags:["30米飛天火車","蓮霧冒險森林","近火車站"], desc:"全國首座飛天火車主題公園，緊鄰林邊火車站，長達30公尺的火車造型遊具每節車廂都有不同攀爬、攀岩與獨木橋挑戰，對面還有融入在地特產的蓮霧冒險森林遊戲區，24小時開放、交通非常方便。", address:"屏東縣林邊鄉仁愛路33號", placeId:""},
-  {id:"pt_nanzhou_eco", name:"南州環保共融公園", city:"屏東", district:"南州鄉", rating:4.5, count:330, age:["幼幼","學齡前","國小"], tags:["環保回收桶溜滑梯","外星寶寶","近南州糖廠"], desc:"全台首座環保主題共融公園，四座以資源回收桶發想的「外星寶寶」溜滑梯（紅辣椒、黃金鼠、藍博士、翡翠蛙）造型吸睛，另有攀爬網繩、獨木吊橋與太陽能座椅，鄰近南州糖廠可順遊吃冰。", address:"屏東縣南州鄉勝利路15號", placeId:""}
+  {id:"pt_nanzhou_eco", name:"南州環保共融公園", city:"屏東", district:"南州鄉", rating:4.5, count:330, age:["幼幼","學齡前","國小"], tags:["環保回收桶溜滑梯","外星寶寶","近南州糖廠"], desc:"全台首座環保主題共融公園，四座以資源回收桶發想的「外星寶寶」溜滑梯（紅辣椒、黃金鼠、藍博士、翡翠蛙）造型吸睛，另有攀爬網繩、獨木吊橋與太陽能座椅，鄰近南州糖廠可順遊吃冰。", address:"屏東縣南州鄉勝利路15號", placeId:""},
+  {id:"tn_greenshu_ship", name:"健康綠洲公園", city:"台南", district:"南區", rating:4.6, count:480, age:["幼幼","學齡前","國小"], tags:["大船主題塔","雙軌滑索","8公尺瞭望台"], desc:"以1661台灣船為主題打造的台南市區公園，高達8公尺瞭望台的大船溜滑梯是招牌，還有雙軌滑索、迷宮、競賽跑道與攀岩設施，沖繩風配色很好拍，24小時開放並設有停車場。", address:"台南市南區健康路二段500號", placeId:""},
+  {id:"tn_zhuxi_riverside", name:"竹溪水岸園區兒童遊戲場", city:"台南", district:"南區", rating:4.5, count:260, age:["幼幼","學齡前","國小"], tags:["丹麥KOMPAN遊具","河岸生態","遮陽沙坑"], desc:"位於台南市立體育公園內，緊鄰竹溪水岸月見橋，11項來自丹麥KOMPAN的特色遊具包含小山丘攀爬溜滑梯、大型攀岩與旋轉遊具，還有可遮陽的沙坑，散步賞生態湖景很愜意，全年無休、免費開放。", address:"台南市南區健康路一段與大同路口", placeId:""},
+  {id:"tn_dahe_magpie", name:"大和公園（喜鵲遊戲塔）", city:"台南", district:"北區", rating:4.6, count:210, age:["幼幼","學齡前","國小"], tags:["7米喜鵲溜滑梯","磨石子滑道","攀岩牆"], desc:"以台南常見的喜鵲為主題，打造高達7公尺的喜鵲造型遊戲塔，翅膀兩側分別是水管溜滑梯與攀岩牆，羽尾則是寬滑道磨石子溜滑梯，肚子裡還有各種攀爬關卡，是北區新啟用的人氣特色公園。", address:"台南市北區中華北路一段472號", placeId:""},
+  {id:"tn_anping_ocean", name:"安平港濱歷史特色遊戲場", city:"台南", district:"安平區", rating:4.7, count:540, age:["幼幼","學齡前","國小"], tags:["海洋高塔溜滑梯","大魚的祝福","12項海洋遊具"], desc:"台南最大的海港主題公園，以深海歷險為主題分成大鯨魚土丘、急流海溝、珊瑚礁叢與綠藻山洞四大主題區，12項海洋遊具包含海洋高塔雙滑道、鯨魚噴霧、雙軌滑索與繩索闖關，鄰近知名地標「大魚的祝福」裝置藝術，安億路旁有免費停車場。", address:"台南市安平區安億路", placeId:""},
+  {id:"tn_madou_sugarcane", name:"總爺藝文中心甘蔗五感遊戲場", city:"台南", district:"麻豆區", rating:4.5, count:150, age:["幼幼","學齡前","國小"], tags:["甘蔗攀爬組","五感體驗","日治糖廠古蹟"], desc:"位於總爺藝文中心內，前身為麻豆總爺糖廠，園區保留日治時期紅磚木造古蹟建築與百年老樹綠色隧道，特色遊戲場以在地甘蔗產業為發想打造甘蔗攀爬組與雨聲攀繩等五感體驗設施，適合結合藝文展覽安排半天知性之旅。", address:"台南市麻豆區南勢里總爺5號", placeId:""}
 ];
 
 const ICON_MAP = {
@@ -280,7 +290,9 @@ const ICON_MAP = {
   pt_chaozhou_happiness:'climb', pt_gonger:'tree', pt_donggang:'ship',
   kh_cpc_ocean:'jellyfish',
   pt_jiuru_balu:'tower', pt_neipu_liudui:'climb', pt_linbian_train:'train', pt_nanzhou_eco:'alien',
-  kh_libazainei:'tower', kh_lantian_saltpark:'slope', kh_wujia_doraemon:'tube', kh_pingfeng_birdtree:'nest'
+  kh_libazainei:'tower', kh_lantian_saltpark:'slope', kh_wujia_doraemon:'tube', kh_pingfeng_birdtree:'nest',
+  kh_playground_railyard:'cloud',
+  tn_greenshu_ship:'ship', tn_zhuxi_riverside:'climb', tn_dahe_magpie:'goose', tn_anping_ocean:'jellyfish', tn_madou_sugarcane:'forest'
 };
 PARKS.forEach(p=>{ p.icon = ICON_MAP[p.id] || 'tree'; });
 
@@ -307,14 +319,22 @@ function iconGlyph(key){
     onion: '<path d="M32 12 C46 20 46 34 32 46 C18 34 18 20 32 12 Z"/><rect x="30" y="6" width="4" height="8"/>',
     jellyfish: '<path d="M32 12 a16 16 0 0 1 16 16 c0 3 -2 5 -5 5 H21 c-3 0 -5 -2 -5 -5 a16 16 0 0 1 16 -16 Z"/><path d="M22 33 q2 8 -1 15 M32 33 q1 9 -2 15 M42 33 q-2 8 1 15" fill="none" stroke-width="3.5" stroke-linecap="round"/>',
     alien: '<ellipse cx="32" cy="30" rx="14" ry="16"/><circle cx="26" cy="28" r="4" fill="var(--cover)"/><circle cx="38" cy="28" r="4" fill="var(--cover)"/><path d="M24 14 L20 6 M40 14 L44 6" fill="none" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="6" r="2"/><circle cx="44" cy="6" r="2"/>',
-    tube: '<rect x="14" y="24" width="36" height="16" rx="8"/><ellipse cx="14" cy="32" rx="6" ry="8" fill="var(--cover)"/><ellipse cx="50" cy="32" rx="6" ry="8" fill="var(--cover)"/>'
+    tube: '<rect x="14" y="24" width="36" height="16" rx="8"/><ellipse cx="14" cy="32" rx="6" ry="8" fill="var(--cover)"/><ellipse cx="50" cy="32" rx="6" ry="8" fill="var(--cover)"/>',
+    cloud: '<ellipse cx="24" cy="36" rx="10" ry="8"/><ellipse cx="36" cy="28" rx="13" ry="11"/><ellipse cx="46" cy="36" rx="8" ry="7"/><rect x="18" y="35" width="36" height="9" rx="4.5"/>'
   };
   return glyphs[key] || glyphs.tree;
 }
+const CITY_META = {
+  "高雄": { cls:"kh", ground:"var(--kh)", skyTop:"#DCEFE2", skyBottom:"#F6FBF3" },
+  "屏東": { cls:"pt", ground:"var(--pt)", skyTop:"#DCE9F3", skyBottom:"#F2F8FB" },
+  "台南": { cls:"tn", ground:"var(--tn)", skyTop:"#F5E4D6", skyBottom:"#FBF3EA" }
+};
+
 function cardBanner(p){
-  const ground = p.city==='高雄' ? 'var(--kh)' : 'var(--pt)';
-  const skyTop = p.city==='高雄' ? '#DCEFE2' : '#DCE9F3';
-  const skyBottom = p.city==='高雄' ? '#F6FBF3' : '#F2F8FB';
+  const meta = CITY_META[p.city];
+  const ground = meta.ground;
+  const skyTop = meta.skyTop;
+  const skyBottom = meta.skyBottom;
   const gid = 'sky-'+p.id;
   return `<svg class="banner-svg" viewBox="0 0 400 130" preserveAspectRatio="xMidYMid slice">
     <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
@@ -328,7 +348,7 @@ function cardBanner(p){
   </svg>`;
 }
 
-const CITY_OPTIONS = ["全部","高雄","屏東"];
+const CITY_OPTIONS = ["全部","高雄","屏東","台南"];
 const AGE_OPTIONS = ["全部","幼幼","學齡前","國小"];
 const VISITED_OPTIONS = ["全部","✅ 已去過","⬜ 未拜訪"];
 let activeCity = "全部";
@@ -389,7 +409,8 @@ function renderRegionTabs(){
   const defs = [
     {opt:'全部', cls:'all'},
     {opt:'高雄', cls:'kh'},
-    {opt:'屏東', cls:'pt'}
+    {opt:'屏東', cls:'pt'},
+    {opt:'台南', cls:'tn'}
   ];
   defs.forEach(d=>{
     const el = document.createElement('button');
@@ -484,7 +505,7 @@ function buildCard(p){
     const card = document.createElement('div');
     card.className = 'card' + (st.visited ? ' visited' : '');
 
-    const cityClass = p.city==='高雄' ? 'kh' : 'pt';
+    const cityClass = CITY_META[p.city].cls;
     const hasPhoto = st.photos && st.photos.length > 0;
     const bannerHtml = hasPhoto
       ? `<img class="card-banner-photo" src="${st.photos[0]}" alt="${escapeHtml(p.name)} 實拍照片">`
@@ -630,7 +651,8 @@ function renderList(){
   }
   const groups = [
     {city:'高雄', cls:'kh', items: list.filter(p=>p.city==='高雄')},
-    {city:'屏東', cls:'pt', items: list.filter(p=>p.city==='屏東')}
+    {city:'屏東', cls:'pt', items: list.filter(p=>p.city==='屏東')},
+    {city:'台南', cls:'tn', items: list.filter(p=>p.city==='台南')}
   ];
   groups.forEach(g=>{
     if(g.items.length===0) return;
