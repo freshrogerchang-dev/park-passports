@@ -365,7 +365,7 @@ function cardBanner(p){
 
 const CITY_OPTIONS = ["全部","高雄","屏東","台南"];
 const AGE_OPTIONS = ["全部","幼幼","學齡前","國小"];
-const VISITED_OPTIONS = ["全部","✅ 已去過","⬜ 未拜訪"];
+const VISITED_OPTIONS = ["全部","已去過","未拜訪"];
 let activeCity = "全部";
 let activeAge = "全部";
 let activeVisited = "全部";
@@ -452,7 +452,7 @@ function renderChips(){
   VISITED_OPTIONS.forEach(opt=>{
     const el = document.createElement('button');
     el.className = 'chip' + (opt===activeVisited ? ' active':'');
-    el.textContent = opt;
+    el.textContent = opt==='全部' ? opt : (opt===activeVisited ? '✅ ' : '⬜ ') + opt;
     el.onclick = ()=>{ activeVisited = opt; renderChips(); renderList(); };
     visitedWrap.appendChild(el);
   });
@@ -463,8 +463,8 @@ function filteredParks(){
     if(activeCity!=='全部' && p.city!==activeCity) return false;
     if(activeAge!=='全部' && !p.age.includes(activeAge)) return false;
     const isVisited = !!stateCache[p.id]?.visited;
-    if(activeVisited==='✅ 已去過' && !isVisited) return false;
-    if(activeVisited==='⬜ 未拜訪' && isVisited) return false;
+    if(activeVisited==='已去過' && !isVisited) return false;
+    if(activeVisited==='未拜訪' && isVisited) return false;
     if(searchTerm){
       const hay = (p.name+p.district+p.address).toLowerCase();
       if(!hay.includes(searchTerm.toLowerCase())) return false;
